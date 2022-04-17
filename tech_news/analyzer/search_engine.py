@@ -6,7 +6,7 @@ from datetime import datetime
 def search_by_title(title):
     query = search_news({
         "title": {
-            "$regex": title, "$ options": "i"
+            "$regex": title, "$options": "i"
         }
     })
     news = []
@@ -53,4 +53,14 @@ def search_by_source(source):
 
 # Requisito 9
 def search_by_category(category):
-    """Seu código deve vir aqui"""
+    query = search_news({
+        "categories": {
+            "$elemMatch": {
+                "$regex": category, "$options": "i"
+            }
+        }
+    })
+    news = []
+    for item in query:
+        news.append((item["title"], item["url"]))
+    return news
